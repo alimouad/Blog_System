@@ -1,91 +1,94 @@
-<!-- Blog Login Section -->
-<div class="max-w-4xl mx-auto bg-white border border-slate-200 rounded-xl overflow-hidden">
+<div class="max-w-[480px] mx-auto bg-white rounded-[2.5rem] shadow-[0_20px_60px_rgba(0,0,0,0.05)] p-10 md:p-12 transition-all">
 
-    <!-- Right: Login Form -->
-    <div id="loginForm" class="p-8">
+    <div id="loginForm">
 
-        <!-- Header -->
-        <div class="mb-8">
-            <h1 class="text-2xl mb-3  text-center font-bold text-slate-900 mb-2">
+        <div class="mb-10 text-center">
+            <div class="inline-flex items-center justify-center size-14 bg-primary/5 text-primary rounded-2xl mb-6">
+                <span class="material-symbols-outlined text-3xl">login</span>
+            </div>
+            <h1 class="text-3xl font-black text-slate-900 tracking-tight leading-none mb-3">
                 Welcome back
             </h1>
-            <p class="text-slate-600 text-sm">
-                Sign in to continue reading and writing.
+            <p class="text-slate-400 text-sm font-medium">
+                Sign in to your account to continue.
             </p>
         </div>
+
         <?php if (isset($data['errors']['LoginErr'])): ?>
-            <div class="mb-4 p-3 rounded bg-red-50 text-red-700 text-sm border border-red-200">
-                <?= htmlspecialchars($data['errors']['LoginErr']); ?>
+            <div class="mb-6 flex items-center gap-3 p-4 rounded-2xl bg-red-50 text-red-600 text-sm border border-red-100">
+                <span class="material-symbols-outlined text-lg">error</span>
+                <span class="font-bold"><?= htmlspecialchars($data['errors']['LoginErr']); ?></span>
             </div>
         <?php endif; ?>
 
-        <!-- Form -->
-        <form method="POST" action="/login" class="space-y-5" novalidate>
+        <form method="POST" action="/login" class="space-y-6" novalidate>
 
-            <!-- Email -->
-            <div>
-                <label for="email" class="block text-sm font-medium text-slate-700 mb-1">
+            <div class="group">
+                <label for="email" class="block text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 ml-1">
                     Email address
                 </label>
-                <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="you@example.com"
-                    autocomplete="email"
-                    required
-                    class="w-full px-4 py-2.5 border border-slate-300 rounded-md
-                           focus:outline-none focus:ring-2 focus:ring-slate-900/20 focus:border-slate-900" />
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-300 group-focus-within:text-primary transition-colors text-[20px]">mail</span>
+                    <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        placeholder="you@example.com"
+                        value="<?= $data['email'] ?? '' ?>"
+                        class="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all placeholder:text-slate-300 text-slate-700 text-sm font-medium" />
+                </div>
                 <?php if (isset($data['errors']['EmailErr'])): ?>
-                    <p class="text-red-500 text-xs mt-1"><?= htmlspecialchars($data['errors']['EmailErr']) ?></p>
+                    <p class="text-red-500 text-[10px] font-bold mt-2 flex items-center gap-1 ml-1">
+                        <span class="material-symbols-outlined text-xs">warning</span> <?= htmlspecialchars($data['errors']['EmailErr']) ?>
+                    </p>
                 <?php endif; ?>
             </div>
 
-            <!-- Password -->
-            <div>
-                <label for="password" class="block text-sm font-medium text-slate-700 mb-1">
+            <div class="group">
+                <label for="password" class="block text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 ml-1">
                     Password
                 </label>
-                <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    autocomplete="current-password"
-                    required
-                    class="w-full px-4 py-2.5 border border-slate-300 rounded-md
-                           focus:outline-none focus:ring-2 focus:ring-slate-900/20 focus:border-slate-900" />
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-300 group-focus-within:text-primary transition-colors text-[20px]">lock</span>
+                    <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        placeholder="••••••••"
+                        class="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all placeholder:text-slate-300 text-slate-700 text-sm font-medium" />
+                </div>
                 <?php if (isset($data['errors']['PasswordErr'])): ?>
-                    <p class="text-red-500 text-xs mt-1"><?= htmlspecialchars($data['errors']['PasswordErr']) ?></p>
+                    <p class="text-red-500 text-[10px] font-bold mt-2 flex items-center gap-1 ml-1">
+                        <span class="material-symbols-outlined text-xs">warning</span> <?= htmlspecialchars($data['errors']['PasswordErr']) ?>
+                    </p>
                 <?php endif; ?>
             </div>
 
-            <!-- Remember + Forgot -->
-            <div class="flex items-center justify-between text-sm">
-                <label class="flex items-center gap-2 cursor-pointer">
+            <div class="flex items-center justify-between px-1">
+                <label class="flex items-center gap-2 cursor-pointer group">
                     <input
                         type="checkbox"
                         name="remember"
-                        class="rounded border-slate-300 focus:ring-slate-900" />
-                    <span class="text-slate-600">Remember me</span>
+                        class="size-4 rounded-md border-slate-200 text-primary focus:ring-primary/20 transition-all cursor-pointer" />
+                    <span class="text-xs text-slate-400 font-bold group-hover:text-slate-600 transition-colors">Remember me</span>
                 </label>
-
+                <a href="/forgot-password" class="text-xs font-bold text-primary hover:text-primary/80 transition-colors">Forgot Password?</a>
             </div>
 
-            <!-- Submit -->
             <button
                 type="submit"
-                class="w-full py-2.5 bg-slate-900 text-white rounded-md
-                       hover:bg-slate-800 transition font-medium">
+                class="w-full py-4 bg-slate-900 text-white rounded-2xl hover:bg-black active:scale-[0.97] transition-all font-bold text-sm shadow-xl shadow-slate-200 mt-2">
                 Sign in
             </button>
 
-            <!-- Footer -->
-            <p class="text-center text-sm text-slate-600">
-                New here?
-                <a href="/register" class="font-medium underline hover:text-slate-900">
-                    Create an account
-                </a>
-            </p>
+            <div class="pt-6 text-center border-t border-slate-50 mt-8">
+                <p class="text-xs text-slate-400 font-medium">
+                    New here?
+                    <a href="/register" class="font-bold text-primary hover:text-primary/80 transition-colors ml-1">
+                        Create an account
+                    </a>
+                </p>
+            </div>
         </form>
     </div>
 </div>

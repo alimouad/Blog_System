@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../bootstrap/autoload.php';
 
+session_start();
 
 use Core\Router;
 

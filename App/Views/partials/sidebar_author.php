@@ -16,7 +16,7 @@
                 <?php endif; ?>
             </a>
 
-            <a href="/myarticles" 
+            <a href="/author/articles" 
                class="group flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-300
                <?= ($current === '/myarticles') ? 'bg-primary text-white shadow-lg shadow-primary/25' : 'text-slate-600 hover:bg-slate-50 hover:text-primary' ?>">
                 <span class="material-symbols-outlined transition-transform group-hover:scale-110">auto_stories</span>
@@ -70,5 +70,13 @@
             </div>
         </div>
 
+        <div class="mt-10 p-5 rounded-3xl bg-gradient-to-br from-primary to-blue-600 text-white shadow-xl shadow-primary/20 relative overflow-hidden group">
+            <div class="relative z-10">
+                <p class="text-xs font-bold opacity-80 mb-1">New Feature</p>
+                <p class="text-sm font-black leading-tight mb-3">Create your own article</p>
+                <a href="/author/add_article" class="bg-white text-primary text-[11px] font-bold px-4 py-2 rounded-full hover:bg-opacity-90 transition-all">Get Started</a>
+            </div>
+            <div class="absolute -bottom-4 -right-4 size-20 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+        </div>
     </nav>
 </aside>

@@ -9,10 +9,24 @@
 
 <!-- Categories -->
 <div class="flex gap-3 overflow-x-auto pb-4 mb-8 no-scrollbar">
-     <button class="flex-none px-5 py-2 rounded-full bg-slate-900 text-white text-sm font-medium transition-all hover:scale-105">All</button>
+    <button class="flex-none px-5 py-2 rounded-full bg-slate-900 text-white text-sm font-medium transition-all hover:scale-105">All</button>
     <?php foreach ($categories as $cat): ?>
+
         <button class="flex-none px-5 py-2 rounded-full bg-white border border-slate-200 text-slate-600 text-sm font-medium transition-all hover:bg-slate-50"><?= htmlspecialchars($cat['name']) ?></button>
     <?php endforeach; ?>
+</div>
+
+<div class="flex my-3">
+    <a href="/author/add_article"
+        class="ml-auto flex items-center gap-2 px-4 py-2 bg-primary text-white
+              rounded-lg hover:bg-blue-300 hover:text-white transition-colors font-medium">
+
+        <span class="material-symbols-outlined text-lg">
+            edit_note
+        </span>
+
+        <span>Add</span>
+    </a>
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 p-4">

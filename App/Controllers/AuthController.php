@@ -58,9 +58,7 @@ class AuthController extends Controller
                 $user = User::login($data['email'], $password);
 
                 if ($user) {
-                    // Determine redirect path based on the object's role
                     $redirect = ($user->getRole() === 'ADMIN') ? '/adminhome' : '/';
-
                     header("Location: $redirect");
                     exit;
                 } else {
@@ -69,12 +67,20 @@ class AuthController extends Controller
             }
         }
 
+
         $this->render('Auth/login', 'authLayout', [
             'title' => 'Login',
             'data' => $data
         ]);
     }
 
+
+    public function logout()
+    {
+        User::logout();
+
+        exit;
+    }
 
 
 

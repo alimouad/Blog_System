@@ -1,10 +1,85 @@
 <?php
 
 namespace App\Controllers;
-use Core\Controller;
 
-class ReaderController extends Controller{
-    public function index(){
-        $this->render('Reader/home','readerLayout',[]);
-    }  
+use Core\Controller;
+use App\Models\Article;
+use App\Models\Comment;
+use App\Models\Category;
+use Core\Auth;
+
+class ReaderController extends Controller
+{
+    public function index()
+    {
+        $categories = Category::getAllCategories();
+        $articles = Article::fetchaAllArticles();
+        $this->render('Reader/home', 'readerLayout', [
+            'articles' => $articles,
+            'categories' => $categories
+        ]);
+    }
+
+    public function viewArticle()
+    {
+        Auth::requireLogin();
+
+        $articleId = $_GET['id'] ?? null;
+
+        if ($articleId) {
+            $article = Article::getArticleById($articleId);
+            $comments = Comment::getByArticle($articleId);
+            $this->render('Reader/article', 'readerLayout', [
+                'article' => $article,
+                'comments'=> $comments
+            ]);
+        }
+    }
+
+    public function store()
+    {
+        Auth::requireLogin();
+
+        header('Content-Type: application/json');
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo json_encode(['success' => false, 'error' => 'Invalid request']);
+            exit;
+        }
+
+        $articleId = (int) ($_POST['article_id'] ?? 0);
+        $content   = trim($_POST['content'] ?? '');
+
+        if ($articleId === 0 || $content === '') {
+            echo json_encode(['success' => false, 'error' => 'Invalid input']);
+            exit;
+        }
+
+        $comment = new Comment(
+            $articleId,
+            (int) $_SESSION['user_id'],
+            $content
+        );
+
+        $errors = $comment->save();
+
+        if (!empty($errors)) {
+            echo json_encode([
+                'success' => false,   
+                'error' => reset($errors)
+            ]);
+            exit;
+        }
+
+        echo json_encode([
+            'success' => true,
+            'comment' => [
+                'content'    => htmlspecialchars($content),
+                'author'     => $_SESSION['user_name'],
+                'created_at' => date('Y-m-d H:i')
+            ]
+        ]);
+        exit;
+    }
 }

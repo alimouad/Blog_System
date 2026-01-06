@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use Core\Database;
 use PDO;
 
@@ -16,7 +17,7 @@ class User
         string $fullname,
         string $email,
         string $password,
-        string $role = 'reader',
+        string $role = 'READER',
         ?int $id = null
     ) {
         $this->id = $id;
@@ -24,6 +25,14 @@ class User
         $this->email = $email;
         $this->password = $password;
         $this->role = $role;
+    }
+
+    public static function getById($id)
+    {
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
     public function getFullname(): string
@@ -35,7 +44,7 @@ class User
     {
         return $this->role;
     }
-    
+
     //REGISTER: Static method to handle user creation
     public static function register($fullname, $email, $password, $role = 'reader')
     {
@@ -68,34 +77,34 @@ class User
     }
 
 
-    //LOGIN: Verifies credentials and returns an instance of the calling class
-    public static function login($email, $password)
+    public static function login(string $email, string $password): User|false
     {
         $pdo = Database::getConnection();
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
-        $stmt->execute([$email]);
+
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
+        $stmt->execute(['email' => $email]);
         $userData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($userData && password_verify($password, $userData['password'])) {
-            // Start session if not already started
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
-
-            $_SESSION['user_id'] = $userData['id'];
-            $_SESSION['user_role'] = $userData['role'];
-            $_SESSION['user_name'] = $userData['full_name'];
-
-            // Return user object
-            return new static(
-                $userData['full_name'],
-                $userData['email'],
-                $userData['password'],
-                $userData['role'] ?? 'reader',
-                $userData['id']
-            );
+        if (!$userData || !password_verify($password, $userData['password'])) {
+            return false;
         }
-        return false;
+
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Store ONLY what you need globally
+        $_SESSION['user_id']   = (int) $userData['id'];
+        $_SESSION['user_role'] = $userData['role'];
+        $_SESSION['user_name'] = $userData['full_name'];
+
+        return new static(
+            $userData['full_name'],
+            $userData['email'],
+            $userData['password'],
+            $userData['role'],
+            (int) $userData['id']
+        );
     }
 
     /**

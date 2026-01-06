@@ -1,107 +1,124 @@
-<!-- Blog Register Form -->
-<div id="registerForm" class="max-w-md mx-auto bg-white border border-slate-200 rounded-xl p-8">
-    <?php if (isset($data['errors']['DatabaseErr'])): ?>
-        <div class="mb-4 p-3 rounded bg-red-50 text-red-700 text-sm border border-red-200">
-            <?= htmlspecialchars($data['errors']['DatabaseErr']); ?>
+<div id="registerForm" class="max-w-md mx-auto bg-white border border-slate-100 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.04)] p-10 transition-all">
+    
+    <div class="mb-10 text-center">
+        <div class="inline-flex items-center justify-center size-14 bg-primary/5 text-primary rounded-2xl mb-4">
+            <span class="material-symbols-outlined text-3xl">person_add</span>
         </div>
-    <?php endif; ?>
-    <!-- Header -->
-    <div class="mb-8 text-center">
-        <h1 class="text-xl font-bold text-slate-900 mb-2">
+        <h1 class="text-2xl font-black text-slate-900 tracking-tight">
             Create your account
         </h1>
-        <p class="text-slate-600 text-sm">
-            Join our blog to read, write, and share ideas.
+        <p class="text-slate-400 text-sm mt-2 font-medium">
+            Join the community and share your ideas.
         </p>
     </div>
 
-    <!-- Form -->
-    <form method="POST" action="" class="space-y-5" novalidate>
+    <?php if (isset($data['errors']['DatabaseErr'])): ?>
+        <div class="mb-6 flex items-center gap-3 p-4 rounded-xl bg-red-50 text-red-600 text-sm border border-red-100 animate-shake">
+            <span class="material-symbols-outlined text-lg">error</span>
+            <span class="font-bold"><?= htmlspecialchars($data['errors']['DatabaseErr']); ?></span>
+        </div>
+    <?php endif; ?>
 
-        <!-- Name -->
-        <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">
+    <form method="POST" action="" class="space-y-6" novalidate>
+
+        <div class="group">
+            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 ml-1">
                 Full name
             </label>
-            <input
-                type="text"
-                name="full_name"
-                placeholder="John Doe"
-                required
-                class="w-full px-4 py-2.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-900/20 focus:border-slate-900" />
+            <div class="relative">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-300 group-focus-within:text-primary transition-colors text-[20px]">person</span>
+                <input
+                    type="text"
+                    name="full_name"
+                    placeholder="John Doe"
+                    required
+                    value="<?= $data['full_name'] ?? '' ?>"
+                    class="w-full pl-12 pr-4 py-3.5 bg-white border border-slate-200 rounded-2xl outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all placeholder:text-slate-300 text-slate-700 text-sm font-medium" />
+            </div>
             <?php if (isset($data['errors']['NameErr'])): ?>
-                <p class="text-red-500 text-xs mt-1"><?= htmlspecialchars($data['errors']['NameErr']) ?></p>
+                <p class="text-red-500 text-[10px] font-bold mt-2 flex items-center gap-1 ml-1">
+                    <span class="material-symbols-outlined text-xs">warning</span> <?= htmlspecialchars($data['errors']['NameErr']) ?>
+                </p>
             <?php endif; ?>
         </div>
 
-        <!-- Email -->
-        <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">
+        <div class="group">
+            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 ml-1">
                 Email address
             </label>
-            <input
-                type="email"
-                name="email"
-                placeholder="john@example.com"
-                required
-                class="w-full px-4 py-2.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-900/20 focus:border-slate-900" />
-            <?php if (isset($data['errors']['NameErr'])): ?>
-                <p class="text-red-500 text-xs mt-1"><?= htmlspecialchars($data['errors']['NameErr']) ?></p>
+            <div class="relative">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-300 group-focus-within:text-primary transition-colors text-[20px]">mail</span>
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="name@example.com"
+                    required
+                    value="<?= $data['email'] ?? '' ?>"
+                    class="w-full pl-12 pr-4 py-3.5 bg-white border border-slate-200 rounded-2xl outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all placeholder:text-slate-300 text-slate-700 text-sm font-medium" />
+            </div>
+             <?php if (isset($data['errors']['EmailErr'])): ?>
+                <p class="text-red-500 text-[10px] font-bold mt-2 flex items-center gap-1 ml-1">
+                    <span class="material-symbols-outlined text-xs">warning</span> <?= htmlspecialchars($data['errors']['EmailErr']) ?>
+                </p>
             <?php endif; ?>
         </div>
 
-        <!-- Password -->
-        <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">
-                Password
-            </label>
-            <input
-                type="password"
-                name="password"
-                minlength="8"
-                required
-                class="w-full px-4 py-2.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-900/20 focus:border-slate-900" />
-            <?php if (isset($data['errors']['PasswordErr'])): ?>
-                <p class="text-red-500 text-xs mt-1"><?= htmlspecialchars($data['errors']['PasswordErr']) ?></p>
-            <?php endif; ?>
-        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="group">
+                <label class="block text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 ml-1">
+                    Password
+                </label>
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-300 group-focus-within:text-primary transition-colors text-[20px]">lock</span>
+                    <input
+                        type="password"
+                        name="password"
+                        required
+                        class="w-full pl-12 pr-4 py-3.5 bg-white border border-slate-200 rounded-2xl outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all text-slate-700 text-sm" />
+                </div>
+            </div>
 
-        <!-- Confirm -->
-        <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">
-                Confirm password
-            </label>
-            <input
-                type="password"
-                name="password_confirm"
-                required
-                class="w-full px-4 py-2.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-900/20 focus:border-slate-900" />
+            <div class="group">
+                <label class="block text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 ml-1">
+                    Confirm
+                </label>
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-300 group-focus-within:text-primary transition-colors text-[20px]">verified_user</span>
+                    <input
+                        type="password"
+                        name="password_confirm"
+                        required
+                        class="w-full pl-12 pr-4 py-3.5 bg-white border border-slate-200 rounded-2xl outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all text-slate-700 text-sm" />
+                </div>
+            </div>
         </div>
+        <?php if (isset($data['errors']['PasswordErr'])): ?>
+            <p class="text-red-500 text-[10px] font-bold flex items-center gap-1 ml-1">
+                <span class="material-symbols-outlined text-xs">warning</span> <?= htmlspecialchars($data['errors']['PasswordErr']) ?>
+            </p>
+        <?php endif; ?>
 
-        <!-- Terms -->
-        <div class="flex items-start gap-2">
-            <input type="checkbox" required class="mt-1">
-            <p class="text-sm text-slate-600">
-                I agree to the
-                <a href="#" class="underline hover:text-slate-900">Terms</a>
-                and
-                <a href="#" class="underline hover:text-slate-900">Privacy Policy</a>
+        <div class="flex items-start gap-3 px-1 pt-2">
+            <input type="checkbox" required class="mt-0.5 size-4 rounded-md border-slate-200 text-primary focus:ring-primary/20 transition-all cursor-pointer">
+            <p class="text-[11px] text-slate-400 font-medium leading-relaxed">
+                I agree to the <a href="#" class="text-slate-900 font-bold hover:underline">Terms</a> and 
+                <a href="#" class="text-slate-900 font-bold hover:underline">Privacy Policy</a>
             </p>
         </div>
 
-        <!-- Submit -->
         <button
             type="submit"
-            class="w-full py-2.5 bg-slate-900 text-white rounded-md hover:bg-slate-800 transition font-medium">
-            Create account
+            class="w-full py-4 bg-slate-900 text-white rounded-2xl hover:bg-black active:scale-[0.97] transition-all font-bold text-sm shadow-xl shadow-slate-200 mt-2">
+            Create Account
         </button>
 
-        <!-- Footer -->
-        <p class="text-center text-sm text-slate-600">
-            Already have an account?
-            <a href="/login" class="font-medium underline hover:text-slate-900">
-                Sign in
-            </a>
-        </p>
+        <div class="pt-6 text-center">
+            <p class="text-xs text-slate-400 font-medium">
+                Already have an account?
+                <a href="/login" class="font-bold text-primary hover:text-primary/80 transition-colors ml-1">
+                    Sign in
+                </a>
+            </p>
+        </div>
     </form>
 </div>
