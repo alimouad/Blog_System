@@ -40,16 +40,6 @@
             <main class="flex-1 min-w-0">
                 <?= $content ?>
             </main>
-
-            <script>
-                // Function to close the message
-                function closeFlash() {
-                    const el = document.getElementById('flash-message');
-                    el.style.opacity = '0';
-                    setTimeout(() => el.remove(), 500);
-                }
-                setTimeout(closeFlash, 5000);
-            </script>
 </body>
 
 </html>

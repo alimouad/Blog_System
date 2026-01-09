@@ -4,30 +4,27 @@
         <div class="space-y-1 mb-8">
             <?php $current = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); ?>
 
-            <a href="/" 
+            <a href="/author/home" 
                class="group flex items-center justify-between px-4 py-3 rounded-2xl transition-all duration-300 
-               <?= ($current === '/') ? 'bg-primary text-white shadow-lg shadow-primary/25' : 'text-slate-600 hover:bg-slate-50 hover:text-primary' ?>">
+               <?= ($current === '/author/home') ? 'bg-primary text-white shadow-lg shadow-primary/25' : 'text-slate-600 hover:bg-slate-50 hover:text-primary' ?>">
                 <div class="flex items-center gap-3">
                     <span class="material-symbols-outlined transition-transform group-hover:scale-110">home</span>
                     <span class="font-bold text-sm">Home Feed</span>
                 </div>
-                <?php if($current === '/'): ?>
-                    <div class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></div>
-                <?php endif; ?>
             </a>
 
             <a href="/author/articles" 
                class="group flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-300
-               <?= ($current === '/myarticles') ? 'bg-primary text-white shadow-lg shadow-primary/25' : 'text-slate-600 hover:bg-slate-50 hover:text-primary' ?>">
+               <?= ($current === '/author/articles') ? 'bg-primary text-white shadow-lg shadow-primary/25' : 'text-slate-600 hover:bg-slate-50 hover:text-primary' ?>">
                 <span class="material-symbols-outlined transition-transform group-hover:scale-110">auto_stories</span>
                 <span class="font-bold text-sm">My Library</span>
             </a>
 
-            <a href="/bookmarks" 
+            <a href="/author/comments" 
                class="group flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-300
-               <?= ($current === '/bookmarks') ? 'bg-primary text-white shadow-lg shadow-primary/25' : 'text-slate-600 hover:bg-slate-50 hover:text-primary' ?>">
+               <?= ($current === '/author/comments') ? 'bg-primary text-white shadow-lg shadow-primary/25' : 'text-slate-600 hover:bg-slate-50 hover:text-primary' ?>">
                 <span class="material-symbols-outlined transition-transform group-hover:scale-110">bookmark</span>
-                <span class="font-bold text-sm">Bookmarks</span>
+                <span class="font-bold text-sm">Manage Comments</span>
             </a>
         </div>
 

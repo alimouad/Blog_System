@@ -24,13 +24,17 @@ class Article
     /**
      * Save article to database
      */
-    public function save(): array
+    public function save(array $categoryIds = []): array
     {
         try {
             $pdo = Database::getConnection();
 
+            // Start transaction
+            $pdo->beginTransaction();
+
+            // 1. Insert the main Article
             $stmt = $pdo->prepare("
-            INSERT INTO articles (author_id , title , content)
+            INSERT INTO articles (author_id, title, content)
             VALUES (:author_id, :title, :content)
         ");
 
@@ -38,15 +42,36 @@ class Article
                 ':author_id' => $this->author_id,
                 ':title'     => $this->title,
                 ':content'   => $this->content
-
             ]);
 
             $this->id = (int) $pdo->lastInsertId();
 
+            if (!empty($categoryIds)) {
+                $junctionStmt = $pdo->prepare("
+                INSERT INTO article_category (article_id, category_id)
+                VALUES (:article_id, :category_id)
+            ");
+
+                foreach ($categoryIds as $categoryId) {
+                    $junctionStmt->execute([
+                    
+                        ':article_id'  => $this->id,
+                        ':category_id' => (int) $categoryId
+                    ]);
+                }
+            }
+            // Commit all changes
+            $pdo->commit();
+
             return [];
         } catch (PDOException $e) {
+            // Rollback on error to keep data consistent
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+
             return [
-                'db' => $e->getMessage()
+                'db' => "Database Error: " . $e->getMessage()
             ];
         }
     }
@@ -62,12 +87,18 @@ class Article
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getArticleById($id) {
+    public static function getArticleById($id)
+    {
 
         $pdo = Database::getConnection();
         $stmt = $pdo->prepare("SELECT * FROM articles WHERE id = ? limit 1");
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-        
+    public static function getCategoryByArticle($id){
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare("SELECT c.* from categories c INNER JOIN article_category ac on ac.category_id = c.id INNER JOIN articles a on ac.article_id = a.id where a.id = ?;");
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }

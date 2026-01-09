@@ -80,3 +80,31 @@
         </article>
     <?php endforeach; ?>
 </div>
+
+ <?php if (isset($_SESSION['SUCCESS_MESSAGE'])): ?>
+     <div id="flash-message" class="fixed top-5 right-5 bg-white border-l-4 border-green-500 p-4 rounded-lg shadow-2xl z-[100] flex items-center gap-4 min-w-[320px] animate-slide-in">
+         <div class="bg-green-100 p-2 rounded-full">
+             <span class="material-symbols-outlined text-green-600">check_circle</span>
+         </div>
+         <div class="flex-1">
+             <p class="text-sm font-bold text-slate-900">Success</p>
+             <p class="text-xs text-slate-600"><?= htmlspecialchars($_SESSION['SUCCESS_MESSAGE']); ?></p>
+         </div>
+         <button onclick="closeFlash()" class="text-slate-400 hover:text-slate-900">
+             <span class="material-symbols-outlined text-xl">close</span>
+         </button>
+     </div>
+     <?php unset($_SESSION['SUCCESS_MESSAGE']); ?>
+ <?php endif; ?>
+
+  <script>
+     function closeFlash() {
+         const el = document.getElementById('flash-message');
+         if (el) {
+             el.style.opacity = '0';
+             el.style.transform = 'translateX(20px)';
+             setTimeout(() => el.remove(), 500);
+         }
+     }
+     setTimeout(closeFlash, 5000);
+ </script>

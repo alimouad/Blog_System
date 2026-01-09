@@ -27,36 +27,41 @@ class AuthorController extends Controller
      * Validate article data
      */
     public function articles()
-
     {
         Auth::requireRole("AUTHOR");
-        
+        $categories = Category::getAllCategories();
 
         $data = [
-            'title'     => '',
-            'content'   => '',
-            'author_id' => $_SESSION['user_id'],
-            'errors'    => []
+            'title'       => '',
+            'content'     => '',
+            'author_id'   => $_SESSION['user_id'],
+            'category_ids' => [], 
+            'errors'      => []
         ];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data['title']        = trim($_POST['title'] ?? '');
+            $data['content']      = trim($_POST['content'] ?? '');
+            $data['category_ids'] = $_POST['category_ids'] ?? []; // Capture the array from the checkboxes
 
-            $data['title']   = trim($_POST['title'] ?? '');
-            $data['content'] = trim($_POST['content'] ?? '');
             $data['errors'] = $this->validateInputs($data);
 
-            if (empty($data['errors'])) {
+            // Custom validation for categories
+            if (empty($data['category_ids'])) {
+                $data['errors']['categoryErr'] = "Please select at least one category.";
+            }
 
+            if (empty($data['errors'])) {
                 $article = new Article(
                     $data['title'],
                     $data['content'],
                     $data['author_id']
                 );
 
-                $errors = $article->save();
+                // Pass the category IDs to the save method
+                $errors = $article->save($data['category_ids']);
 
                 if (empty($errors)) {
-
                     $_SESSION['SUCCESS_MESSAGE'] = 'Article added successfully.';
                     header('Location: /author/home');
                     exit;
@@ -66,9 +71,9 @@ class AuthorController extends Controller
         }
 
         $this->render('Author/add_article', 'authorLayout', [
-            'title' => 'Manage Articles',
-            'data'  => $data,
-            
+            'title'      => 'Manage Articles',
+            'data'       => $data,
+            'categories' => $categories
         ]);
     }
 
@@ -83,6 +88,27 @@ class AuthorController extends Controller
             'articles' => $articles
         ]);
     }
+
+    public function deleteArticle()
+{
+    Auth::requireRole("AUTHOR");
+
+    $articleId = $_GET['id'] ?? null; 
+    
+    $authorId = $_SESSION['user_id']; 
+
+    if ($articleId) {
+        if (Author::deleteArticle($articleId, $authorId)) {
+            $_SESSION['SUCCESS_MESSAGE'] = 'Article deleted successfully';
+        } else {
+            $_SESSION['ERROR_MESSAGE'] = 'Permission denied or article not found.';
+        }
+    }
+
+    header('Location: /author/articles');
+    exit;
+}
+
     public function viewComments()
     {
         Auth::requireRole("AUTHOR");
@@ -93,7 +119,7 @@ class AuthorController extends Controller
             'comments' => $comments
         ]);
     }
-     public function deleteComment()
+    public function deleteComment()
 
     {
         Auth::requireRole("AUTHOR");

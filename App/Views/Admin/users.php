@@ -15,7 +15,7 @@
             </span>
         </div>
 
-        <p class="text-slate-500 text-base font-medium">
+        <p class="text-slate-500 text-base  text-md">
             Hello, <?= $_SESSION['user_name'] ?>. You have full control over contributor permissions.
         </p>
     </div>

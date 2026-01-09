@@ -3,7 +3,8 @@
 
 $router->get('/', "ReaderController@index");
 $router->get('/article/view', "ReaderController@viewArticle");
-$router->post('/comments/store', "ReaderController@store");
+$router->post('/comments/store', "ReaderController@saveComment");
+$router->post('/likes/store', "ReaderController@saveLike");
 
 $router->get('/register', "AuthController@register");
 $router->post('/register', "AuthController@register");
@@ -14,6 +15,7 @@ $router->get('/author/home', "AuthorController@index");
 $router->post('/author/add_article', "AuthorController@articles");
 $router->get('/author/add_article', "AuthorController@articles");
 $router->get('/author/articles', "AuthorController@viewArticles");
+$router->get('/author/article/delete', "AuthorController@deleteArticle");
 $router->get('/author/comments', "AuthorController@viewComments");
 $router->get('/author/comments/delete', "AuthorController@deleteComment");
 

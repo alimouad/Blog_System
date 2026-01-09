@@ -16,7 +16,7 @@
 
 <div id="add_article_overlay"
     class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-40 transition-all duration-300 opacity-100"
-    onclick="closeAddBookForm()"></div>
+    onclick="closeAddArticleForm()"></div>
 
 <div id="add_article_container"
     class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-2xl max-h-[85vh] flex flex-col rounded-2xl bg-white shadow-[0_20px_50px_rgba(0,0,0,0.2)] border border-slate-200 overflow-hidden">
@@ -34,7 +34,7 @@
                 </div>
             </div>
 
-            <button type="button" onclick="closeAddBookForm()"
+            <button type="button" onclick="closeAddArticleForm()"
                 class="p-2 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-all">
                 <span class="material-symbols-outlined text-2xl">close</span>
             </button>
@@ -78,6 +78,34 @@
                     <?php endif; ?>
                 </div>
 
+                <div class="group flex flex-col gap-3">
+                    <label class="text-sm font-bold text-slate-700 flex items-center justify-between">
+                        <span>Assign Categories</span>
+                        <span class="text-[10px] text-slate-400 font-normal italic">Select one or more</span>
+                    </label>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        <?php foreach ($categories as $category): ?>
+                            <label class="relative flex items-center group/cat cursor-pointer">
+                                <input type="checkbox" name="category_ids[]" value="<?= $category['id'] ?>" class="peer sr-only">
+
+                                <div class="w-full px-3 py-2 rounded-xl border border-slate-100 bg-slate-50 text-slate-600 text-xs font-bold 
+                            peer-checked:bg-primary/10 peer-checked:border-primary peer-checked:text-primary 
+                            hover:bg-slate-100 transition-all flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-sm opacity-0 peer-checked:opacity-100 transition-opacity">check_circle</span>
+                                    <?= htmlspecialchars($category['name']) ?>
+                                </div>
+                            </label>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <?php if (!empty($data['errors']['categoryErr'])): ?>
+                        <p class="flex items-center gap-1 text-red-500 text-xs font-semibold mt-1">
+                            <span class="material-symbols-outlined text-sm">error</span>
+                            <?= htmlspecialchars($data['errors']['categoryErr']) ?>
+                        </p>
+                    <?php endif; ?>
+                </div>
                 <div class="group flex flex-col gap-2.5">
                     <label class="text-sm font-bold text-slate-700">
                         Article Content
@@ -159,7 +187,7 @@
     let add_article_btn = document.querySelector('#add_article_btn')
     add_article_btn.addEventListener('click', openAddBookForm)
 
-     function closeFlash() {
+    function closeFlash() {
         const el = document.getElementById('flash-message');
         if (el) {
             el.style.opacity = '0';

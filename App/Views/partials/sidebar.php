@@ -16,18 +16,13 @@
                 <?php endif; ?>
             </a>
 
-            <a href="/myarticles" 
-               class="group flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-300
-               <?= ($current === '/myarticles') ? 'bg-primary text-white shadow-lg shadow-primary/25' : 'text-slate-600 hover:bg-slate-50 hover:text-primary' ?>">
-                <span class="material-symbols-outlined transition-transform group-hover:scale-110">auto_stories</span>
-                <span class="font-bold text-sm">My Library</span>
-            </a>
+          
 
-            <a href="/bookmarks" 
+            <a href="/history" 
                class="group flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-300
-               <?= ($current === '/bookmarks') ? 'bg-primary text-white shadow-lg shadow-primary/25' : 'text-slate-600 hover:bg-slate-50 hover:text-primary' ?>">
+               <?= ($current === '/history') ? 'bg-primary text-white shadow-lg shadow-primary/25' : 'text-slate-600 hover:bg-slate-50 hover:text-primary' ?>">
                 <span class="material-symbols-outlined transition-transform group-hover:scale-110">bookmark</span>
-                <span class="font-bold text-sm">Bookmarks</span>
+                <span class="font-bold text-sm">History</span>
             </a>
         </div>
 

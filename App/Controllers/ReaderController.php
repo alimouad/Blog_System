@@ -6,6 +6,7 @@ use Core\Controller;
 use App\Models\Article;
 use App\Models\Comment;
 use App\Models\Category;
+use App\Models\Like;
 use Core\Auth;
 
 class ReaderController extends Controller
@@ -29,14 +30,16 @@ class ReaderController extends Controller
         if ($articleId) {
             $article = Article::getArticleById($articleId);
             $comments = Comment::getByArticle($articleId);
+            $category = Article::getCategoryByArticle($articleId);
             $this->render('Reader/article', 'readerLayout', [
                 'article' => $article,
-                'comments'=> $comments
+                'comments' => $comments,
+                'category' => $category
             ]);
         }
     }
 
-    public function store()
+    public function saveComment()
     {
         Auth::requireLogin();
 
@@ -66,7 +69,7 @@ class ReaderController extends Controller
 
         if (!empty($errors)) {
             echo json_encode([
-                'success' => false,   
+                'success' => false,
                 'error' => reset($errors)
             ]);
             exit;
@@ -80,6 +83,25 @@ class ReaderController extends Controller
                 'created_at' => date('Y-m-d H:i')
             ]
         ]);
+        exit;
+    }
+
+
+    public function saveLike()
+    {
+        header('Content-Type: application/json');
+
+        Auth::isLoggedIn();
+        $articleId = $_POST['article_id'] ?? null;
+
+        if (!$articleId) {
+            echo json_encode(['success' => false, 'error' => 'Missing Article ID']);
+            exit;
+        }
+
+        $result = Like::toggleLike($articleId, $_SESSION['user_id']);
+
+        echo json_encode($result);
         exit;
     }
 }

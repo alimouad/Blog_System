@@ -36,9 +36,7 @@
 
                     <div class="flex-1">
                         <div class="flex items-center gap-3 mb-3">
-                            <span class="text-[10px] font-bold tracking-widest uppercase text-primary bg-primary/10 px-2.5 py-1 rounded-full">
-                                Lifestyle
-                            </span>
+                            
                             <div class="flex items-center gap-1 text-slate-400">
                                 <span class="material-symbols-outlined text-sm">schedule</span>
                                 <span class="text-[11px] font-medium">3 min read</span>
