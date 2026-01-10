@@ -6,17 +6,20 @@ class Router
 {
     private array $routes = [];
 
-    public function get(string $uri, string $action) {
+    public function get(string $uri, string $action)
+    {
         // Store the route URI in lowercase
         $this->routes['GET'][strtolower($uri)] = $action;
     }
 
-    public function post(string $uri, string $action) {
+    public function post(string $uri, string $action)
+    {
         // Store the route URI in lowercase
         $this->routes['POST'][strtolower($uri)] = $action;
     }
 
-    public function dispatch() {
+    public function dispatch()
+    {
         $uri = strtolower(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
         $method = $_SERVER['REQUEST_METHOD'];
 
@@ -27,19 +30,16 @@ class Router
 
             if (class_exists($controllerClass)) {
                 $controller = new $controllerClass();
-                
+
                 if (method_exists($controller, $methodName)) {
                     return $controller->$methodName();
                 }
             }
         }
 
-        $this->abort();
-    }
-
-    protected function abort($code = 404) {
-        http_response_code($code);
-        echo "404 - Page Not Found";
-        die();
+        $controller_class = "App\\Controllers\\NotFoundController";
+        $controller = new $controller_class();
+        $controller->index();
+        return;
     }
 }

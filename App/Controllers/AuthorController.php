@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\Author;
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\Reports;
 use Core\Auth;
 
 class AuthorController extends Controller
@@ -85,7 +86,7 @@ class AuthorController extends Controller
 
         $this->render('Author/articles', 'authorLayout', [
             'title' => 'Manage Articles',
-            'articles' => $articles
+            'articles' => $articles,
         ]);
     }
 
@@ -138,6 +139,7 @@ class AuthorController extends Controller
         header('Location: /author/comments');
         exit;
     }
+
 
     private function validateInputs(array $post): array
     {

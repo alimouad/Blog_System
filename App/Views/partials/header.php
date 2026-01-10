@@ -14,16 +14,6 @@
                 </a>
             </div>
 
-            <div class="flex-1 max-w-xl relative hidden md:block">
-                <div class="relative group">
-                    <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-300 group-focus-within:text-primary transition-colors text-xl">search</span>
-                    <input
-                        type="text"
-                        placeholder="Search articles, topics, authors..."
-                        class="w-full pl-12 pr-4 py-2.5 rounded-2xl border border-whute-600 bg-white text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary focus:bg-white transition-all" />
-                </div>
-            </div>
-
             <div class="flex items-center gap-4">
 
                 <div class="h-8 w-px bg-slate-100 hidden md:block mx-1"></div>

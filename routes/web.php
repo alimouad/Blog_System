@@ -2,9 +2,11 @@
 // routes/web.php
 
 $router->get('/', "ReaderController@index");
+$router->get('/history', "ReaderController@viewActivityHistory");
 $router->get('/article/view', "ReaderController@viewArticle");
 $router->post('/comments/store', "ReaderController@saveComment");
 $router->post('/likes/store', "ReaderController@saveLike");
+$router->post('/article/report', "ReaderController@addReport");
 
 $router->get('/register', "AuthController@register");
 $router->post('/register', "AuthController@register");

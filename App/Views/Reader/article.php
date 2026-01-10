@@ -58,14 +58,28 @@
                     </div>
                 </div>
 
-                <button id="likeBtn" data-article-id="<?= $article['id'] ?>" class="group flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-50 hover:bg-red-50 transition-all duration-300 active:scale-90">
-                    <span id="likeIcon" class="material-symbols-outlined text-xl text-slate-400 group-hover:text-red-500 transition-colors">
-                        favorite
-                    </span>
-                    <span id="likeCount" class="text-xs font-black text-slate-600 group-hover:text-red-600">
-                        <?= $article['likes_count'] ?? 0 ?>
-                    </span>
-                </button>
+                <div class="flex items-center gap-2">
+                    <button id="reportBtn"
+                        data-article-id="<?= $article['id'] ?>"
+                        class="group flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-50 hover:bg-orange-50 transition-all duration-300 active:scale-95"
+                        title="Report this article">
+                        <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500 transition-colors">
+                            flag
+                        </span>
+                        <span class="text-xs font-black text-slate-600 group-hover:text-orange-600 uppercase tracking-tighter">
+                            Report
+                        </span>
+                    </button>
+
+                    <button id="likeBtn" data-article-id="<?= $article['id'] ?>" class="group flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-50 hover:bg-red-50 transition-all duration-300 active:scale-90">
+                        <span id="likeIcon" class="material-symbols-outlined text-xl text-slate-400 group-hover:text-red-500 transition-colors">
+                            favorite
+                        </span>
+                        <span id="likeCount" class="text-xs font-black text-slate-600 group-hover:text-red-600">
+                            <?= $article['likes_count'] ?? 0 ?>
+                        </span>
+                    </button>
+                </div>
             </div>
         </article>
 
@@ -130,9 +144,12 @@
         </section>
 
     </div>
+
 </div>
 
+
 <script>
+
     function openAddArticleForm() {
         document.getElementById('add_article_overlay').classList.remove('hidden');
         document.getElementById('add_article_container').classList.remove('hidden');
@@ -155,15 +172,42 @@
     const likeCount = document.getElementById('likeCount');
 
 
+    document.getElementById('reportBtn').addEventListener('click', async function() {
+        const articleId = this.dataset.articleId;
+        const reason = prompt("Why are you reporting this article? (Inappropriate, Spam, Harassment, etc.)");
+
+        if (reason && reason.trim().length > 0) {
+            const formData = new FormData();
+            formData.append('article_id', articleId);
+            formData.append('reason', reason);
+
+            try {
+                const res = await fetch('/article/report', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    alert(data.message);
+                    this.classList.add('opacity-50', 'pointer-events-none'); // Disable button after reporting
+                } else {
+                    alert(data.error || "Failed to submit report.");
+                }
+            } catch (err) {
+                console.error('Report error:', err);
+            }
+        }
+    });
+
+    
     likeBtn.addEventListener('click', async () => {
         const articleId = likeBtn.dataset.articleId;
-
-        // Create FormData to send the ID safely
         const formData = new FormData();
         formData.append('article_id', articleId);
 
         try {
-            const res = await fetch('/likes/store', { 
+            const res = await fetch('/likes/store', {
                 method: 'POST',
                 body: formData
             });
@@ -234,7 +278,6 @@
                     errorBox.classList.remove('hidden');
                     return;
                 }
-
                 commentForm.reset();
                 renderComment(data.comment);
             } catch (err) {

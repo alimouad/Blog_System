@@ -34,7 +34,7 @@
                 <span class="material-symbols-outlined text-slate-300 text-sm">explore</span>
             </div>
 
-            <div class="space-y-0.5">
+            <!-- <div class="space-y-0.5">
                 <a href="/topic/design" class="flex items-center justify-between px-4 py-2.5 rounded-xl text-slate-600 hover:bg-primary/5 hover:text-primary transition-all group">
                     <div class="flex items-center gap-3">
                         <div class="size-8 rounded-lg bg-slate-50 flex items-center justify-center group-hover:bg-white transition-colors">
@@ -64,7 +64,7 @@
                     </div>
                     <span class="text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md group-hover:bg-primary group-hover:text-white transition-all">8</span>
                 </a>
-            </div>
+            </div> -->
         </div>
 
         <div class="mt-10 p-5 rounded-3xl bg-gradient-to-br from-primary to-blue-600 text-white shadow-xl shadow-primary/20 relative overflow-hidden group">

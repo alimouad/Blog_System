@@ -70,3 +70,13 @@ CREATE TABLE likes (
 
     CONSTRAINT unique_like UNIQUE (user_id, article_id)
 );
+
+CREATE TABLE reports (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    article_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    reason VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);

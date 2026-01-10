@@ -94,6 +94,7 @@ class Article
         $stmt = $pdo->prepare("SELECT * FROM articles WHERE id = ? limit 1");
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
+        
     }
     public static function getCategoryByArticle($id){
         $pdo = Database::getConnection();
